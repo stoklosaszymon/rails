@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+    db:
+      image: 'postgres:latest'
+      volumes:
+       - postgres:/var/lib/postgresql/data
+      environment:
+       POSTGRES_PASSWORD: postgres
+       POSTGRES_USERNAME: postgres
+      ports:
+        - "5432:5432"
+      # env_file:
+      #     #   - ./env/postgres.env # you can also define env variables like this.
+    rails:
+      build: ./ 
+      command: bundle exec rails s -b '0.0.0.0'
+      ports:
+        - '3000:3000'
+      volumes:
+        - .:/docker/app # add our local code to dockerfile
+      depends_on:
+        - db  # add all dependant container
+      environment:
+        DB_HOST: 'db'
+        DB_USERNAME: 'postgres'
+        DB_PASSWORD: 'postgres'
+        RAILS_MASTER_KEY: 2b09e5d5aa42f7c730a812a055a0dce6  
+                               
+volumes:
+  postgres: 
