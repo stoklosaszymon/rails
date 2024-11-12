@@ -2,6 +2,10 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   #allow_browser versions: :modern
 
+    def index
+      render file: Rails.root.join('public', 'index.html'), layout: false
+    end
+
     def authenticate_user!
       auth_token = cookies.encrypted[:auth_token]
 

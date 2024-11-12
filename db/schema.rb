@@ -14,13 +14,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "events", force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.bigint "user_id"
-    t.string "name"
-    t.index ["user_id"], name: "index_events_on_user_id"
-  end
+  # Custom types defined in this database.
+  # Note that some types may not work with other database engines. Be careful if changing database.
+  create_enum "status", ["bought", "to_buy"]
 
   create_table "product_categories", force: :cascade do |t|
     t.string "name"
@@ -29,6 +25,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
   create_table "product_list_items", force: :cascade do |t|
     t.bigint "product_id"
     t.bigint "product_list_id"
+    t.enum "status", default: "to_buy", null: false, enum_type: "status"
     t.index ["product_id"], name: "index_product_list_items_on_product_id"
     t.index ["product_list_id"], name: "index_product_list_items_on_product_list_id"
   end
@@ -48,10 +45,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "password_digest"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "username"
     t.string "session_token"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "product_lists", "users"

@@ -1,5 +1,9 @@
 version: '3.7'
 services:
+    angular:
+      image: 'angular-docker'
+      ports:
+        - "4200:4200"
     db:
       image: 'postgres:latest'
       volumes:
@@ -25,6 +29,5 @@ services:
         DB_USERNAME: 'postgres'
         DB_PASSWORD: 'postgres'
         RAILS_MASTER_KEY: 2b09e5d5aa42f7c730a812a055a0dce6  
-                               
 volumes:
   postgres: 

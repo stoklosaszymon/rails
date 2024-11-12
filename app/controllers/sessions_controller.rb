@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token
-  before_action :authenticate_user!, only: [ :destroy ]
+  before_action :authenticate_user!, only: [ :destroy, :authenticate ]
 
   def create
     user = User.find_by(username: params[:username])
@@ -32,5 +32,9 @@ class SessionsController < ApplicationController
       path: "/"
     })
     render json: { message: "Logged out", user: current_user }, status: :ok
+  end
+
+  def authenticate 
+     render json: { auth: true }
   end
 end
