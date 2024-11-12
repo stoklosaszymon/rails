@@ -1,9 +1,5 @@
 version: '3.7'
 services:
-    angular:
-      image: 'angular-docker'
-      ports:
-        - "4200:4200"
     db:
       image: 'postgres:latest'
       volumes:
