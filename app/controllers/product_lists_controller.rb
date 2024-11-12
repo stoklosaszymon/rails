@@ -37,11 +37,19 @@ class ProductListsController < ApplicationController
     render json: { message: 'list deleted' }
   end
 
-  def update
+  def update_name
     listItem = ProductList.find(params[:id])
     listItem.name = params[:new_name];
     listItem.save
     render json: listItem
+  end
+
+  def update_products
+      list = ProductList.find(params[:id])
+      params[:product_ids].each do |param| 
+        ProductListItem.create({product_id: param, product_list_id: list.id })
+      end
+      render json: list.product_ids
   end
 
   private

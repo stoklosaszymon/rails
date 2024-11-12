@@ -14,7 +14,8 @@ Rails.application.routes.draw do
   get '/lists', to: 'product_lists#index'
   get '/lists/:id', to: 'product_lists#show'
   delete '/lists/:id', to: 'product_lists#destroy'
-  post '/lists/update/:id', to: 'product_lists#update'
+  post '/lists/update/:id', to: 'product_lists#update_name'
+  post '/lists/update_products/:id', to: 'product_lists#update_products'
   post '/lists/new', to: 'product_lists#create'
 
   post '/lists', to: 'product_list_items#update'
