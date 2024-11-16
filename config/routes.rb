@@ -17,8 +17,10 @@ Rails.application.routes.draw do
   post '/lists/update/:id', to: 'product_lists#update_name'
   post '/lists/update_products/:id', to: 'product_lists#update_products'
   post '/lists/new', to: 'product_lists#create'
+  post '/lists/duplicate', to: 'product_lists#duplicate'
 
   post '/lists', to: 'product_list_items#update'
+  post '/list_items/update_quantity/:id', to: 'product_list_items#update_quantity'
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
   # Can be used by load balancers and uptime monitors to verify that the app is live.
   get "up" => "rails/health#show", as: :rails_health_check

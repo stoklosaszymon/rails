@@ -17,6 +17,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
   # Custom types defined in this database.
   # Note that some types may not work with other database engines. Be careful if changing database.
   create_enum "status", ["bought", "to_buy"]
+  create_enum "units", ["kg", "g", "piece", "l", "ml"]
 
   create_table "product_categories", force: :cascade do |t|
     t.string "name"
@@ -26,6 +27,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
     t.bigint "product_id"
     t.bigint "product_list_id"
     t.enum "status", default: "to_buy", null: false, enum_type: "status"
+    t.float "quantity", default: 1.0
     t.index ["product_id"], name: "index_product_list_items_on_product_id"
     t.index ["product_list_id"], name: "index_product_list_items_on_product_list_id"
   end
@@ -38,6 +40,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
 
   create_table "products", force: :cascade do |t|
     t.string "name"
+    t.enum "unit", enum_type: "units"
     t.bigint "product_category_id"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
   end

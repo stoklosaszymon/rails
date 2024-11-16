@@ -5,8 +5,11 @@ class AddProductList < ActiveRecord::Migration[7.2]
       t.string :name
     end
     
+    create_enum :units, ["kg", "g", "piece", "l", "ml"]
+
     create_table :products do |t|
         t.string :name
+        t.enum :unit, enum_type: "units"
         t.belongs_to :product_category, index: true, foreign_key: true
     end
 
@@ -21,6 +24,7 @@ class AddProductList < ActiveRecord::Migration[7.2]
         t.belongs_to :product
         t.belongs_to :product_list
         t.enum :status, enum_type: "status", default: "to_buy", null: false
+        t.float :quantity, default: 1
     end
 
   end

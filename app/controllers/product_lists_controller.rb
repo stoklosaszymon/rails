@@ -9,12 +9,13 @@ class ProductListsController < ApplicationController
 
   def show
     list = ProductList.find(params[:id])
-    @products = list.product_list_items.map do |p|
-      json = p.product.as_json
-      json["status"] = p.status
+    @products = list.product_list_items.map do |item|
+      json = item.product.as_json
+      json["status"] = item.status
+      json["quantity"] = item.quantity
       json
     end
-    render json: { name: list.name, products: @products }
+    render json: { name: list.name, products: @products}
   end
 
   def create
@@ -46,10 +47,26 @@ class ProductListsController < ApplicationController
 
   def update_products
       list = ProductList.find(params[:id])
+      product = {}
       params[:product_ids].each do |param| 
-        ProductListItem.create({product_id: param, product_list_id: list.id })
+        product = ProductListItem.create({product_id: param, product_list_id: list.id })
       end
-      render json: list.product_ids
+      render json: product.product
+  end
+
+  def duplicate
+    list = ProductList.find(params[:list_id])
+    list_count = ProductList.where("name LIKE :prefix", prefix: "#{list.name}%")
+    new_list = ProductList.create(name: "#{list.name}(#{list_count.size})", user_id: @current_user.id);
+    list.product_list_items.select { |i| i.status == 'to_buy' }.each do |item|
+      ProductListItem.create({
+        product_list_id: new_list.id,
+        product_id: item.product_id,
+        quantity: item.quantity,
+        status: item.status
+      })
+    end
+    render json: { list: new_list, products: new_list.products};
   end
 
   private

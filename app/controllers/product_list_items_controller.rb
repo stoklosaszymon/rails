@@ -10,4 +10,12 @@ class ProductListItemsController < ApplicationController
     listItem.save
     render json: listItem
   end
+
+  def update_quantity
+    item = ProductList.find(params[:id])
+      .product_list_items.where({product_id: params[:product_id]}).first
+    item.quantity += params[:value]
+    item.save
+    render json: item
+  end
 end
