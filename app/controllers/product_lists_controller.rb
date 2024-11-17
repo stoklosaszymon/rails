@@ -19,7 +19,17 @@ class ProductListsController < ApplicationController
   end
 
   def create
-    @list = ProductList.new(user_params_with_user_id)
+    @list = ProductList.new()
+    @list.name = params[:list][:name]
+    @list.user_id = @current_user.id
+    @list.save();
+    param_list = params[:list][:products]
+
+    param_list.each do |pl|
+      product = Product.find(pl[:id]);
+      ProductListItem.create(product_id: product.id, product_list_id: @list.id, quantity: pl[:quantity], status: pl[:status])
+    end
+
     if @list.save
       render json: @list.as_json
     end
@@ -69,13 +79,4 @@ class ProductListsController < ApplicationController
     render json: { list: new_list, products: new_list.products};
   end
 
-  private
-
-  def user_params
-    params.require(:list).permit(:name, product_ids: [])
-  end
-
-  def user_params_with_user_id
-    user_params.merge(user_id: @current_user.id)
-  end
 end
