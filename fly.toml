@@ -1,10 +1,10 @@
-# fly.toml app configuration file generated for shopping-notes on 2024-11-13T09:28:41Z
+# fly.toml app configuration file generated for shopping-notes on 2024-12-10T18:44:47Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'shopping-notes'
-primary_region = 'waw'
+primary_region = 'arn'
 console_command = '/rails/bin/rails console'
 
 [build]
