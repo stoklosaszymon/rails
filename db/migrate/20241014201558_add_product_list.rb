@@ -11,6 +11,7 @@ class AddProductList < ActiveRecord::Migration[7.2]
         t.string :name
         t.enum :unit, enum_type: "units"
         t.belongs_to :product_category, index: true, foreign_key: true
+        t.belongs_to :user
     end
 
     create_table :product_lists do |t|

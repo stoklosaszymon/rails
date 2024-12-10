@@ -1,6 +1,7 @@
 class User < ApplicationRecord
     has_secure_password
     has_many :product_list
+    has_many :products
 
     def User.digest(string)
         cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST :

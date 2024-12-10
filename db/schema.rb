@@ -42,7 +42,9 @@ ActiveRecord::Schema[7.2].define(version: 2024_10_14_201558) do
     t.string "name"
     t.enum "unit", enum_type: "units"
     t.bigint "product_category_id"
+    t.bigint "user_id"
     t.index ["product_category_id"], name: "index_products_on_product_category_id"
+    t.index ["user_id"], name: "index_products_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|

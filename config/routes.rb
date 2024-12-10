@@ -6,8 +6,9 @@ Rails.application.routes.draw do
   delete "/logout", to: "sessions#destroy"
   get "/auth", to: "sessions#authenticate"
 
-  resources :products, only: [ :index , :create ]
+  resources :products, only: [ :index , :create, :show ]
   delete 'products/:id', to: 'products#destroy'
+  post 'products/:id', to: 'products#update'
   get '/categories', to: 'product_categories#index'
 
   post '/lists/remove', to: 'product_lists#remove'
